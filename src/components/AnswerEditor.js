@@ -4,7 +4,7 @@ import { Input } from 'antd'
 import { FlexCenterDiv } from '../styles/common'
 import CodeEditor from './CodeEditor'
 
-const AnswerEditor = ({ selectedQuizType, onChangeSelectionAnswer, selectedAnswer }) => {
+const AnswerEditor = ({ selectedQuizType, setSelectedAnswer, onChangeSelectionAnswer, selectedAnswer }) => {
     const selectionFn = (type) => {
         switch (type) {
             case 'selection':
@@ -32,7 +32,7 @@ const AnswerEditor = ({ selectedQuizType, onChangeSelectionAnswer, selectedAnswe
                 return (
                     <>
                         {/* TODO: '변환하기' '테이블' 모두 제거해줘야 함.  */}
-                        <CodeEditor />
+                        <CodeEditor setSelectedAnswer={setSelectedAnswer} selectedAnswer={selectedAnswer} />
                     </>
                 )
             default:

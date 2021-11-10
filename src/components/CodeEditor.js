@@ -14,7 +14,7 @@ import { Button, message } from 'antd'
 
 const parser = new Parser()
 
-const CodeEditor = () => {
+const CodeEditor = ({ setSelectedAnswer, selectedAnswer }) => {
     const [codeValue, setCodeValue] = useState('')
     const [resultJSON, setResultJSON] = useState(null)
     // const [tableList, setTableList] = useState([])
@@ -28,6 +28,11 @@ const CodeEditor = () => {
         }
 
         try {
+            if (selectedAnswer) {
+                console.log('selectedAnswer')
+                console.log(selectedAnswer)
+                setCodeValue(...selectedAnswer)
+            }
             // const ast = parser.astify(codeValue)
             const { tableList: parsedTableList, columnList: parsedColumnList, ast } = parser.parse(codeValue)
             // const parsedTableList = parser.tableList(codeValue, opt)
@@ -51,7 +56,7 @@ const CodeEditor = () => {
             // parser.whiteListCheck(codeValue, whiteColumnList, opt)
         } catch (error) {
             // console.log('ast 에러')
-            console.log(error)
+            // console.log(error)
             message.warn('제대로된 쿼리를 입력해주세요', 0.6)
             setResultJSON(null)
         }
@@ -83,8 +88,9 @@ const CodeEditor = () => {
                 <AceEditor
                     mode="mysql"
                     theme="monokai"
-                    onChange={onChange}
-                    value={codeValue}
+                    // 외부에서 컴포넌트로 사용할 때는 setSelectedAnswer와 selectedAnswer 사용. 아니면 로컬용으로 onChange와 codeValue 사용.
+                    onChange={setSelectedAnswer ? setSelectedAnswer : onChange}
+                    value={selectedAnswer ? selectedAnswer : codeValue}
                     ref={editorRef}
                     fontSize={20}
                     height={300} // TODO: 나중에 더 괜찮은 높이 찾기

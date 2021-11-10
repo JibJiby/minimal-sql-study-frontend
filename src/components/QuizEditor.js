@@ -98,20 +98,21 @@ const QuizEditor = () => {
         // fk 생략되면 Validation 오류
         const chapterId = selectedChapterId
 
+        const newQuizData = {
+            difficulty: difficulty,
+            quiz_type: quizType,
+            quiz_content: quizContent,
+            solution_value: solution_value,
+            chapterId,
+        }
+
+        console.log('newQuizData')
+        console.log(newQuizData)
+
         try {
-            const result = await axios.post(
-                backendUrl + '/quiz/',
-                {
-                    difficulty: difficulty,
-                    quiz_type: quizType,
-                    quiz_content: quizContent,
-                    solution_value: solution_value,
-                    chapterId,
-                },
-                { withCredentials: true },
-            )
-            // console.log('quiz maker result')
-            // console.log(result)
+            const result = await axios.post(backendUrl + '/quiz/', newQuizData, { withCredentials: true })
+            console.log('quiz maker result')
+            console.log(result)
 
             message.info('문제 생성!', 0.5)
             history.push('/')
@@ -183,38 +184,12 @@ const QuizEditor = () => {
             </FlexCenterDiv>
 
             {/* TODO: 보기의 4개 값을 하나의 리스트로 만들어 보내야 함 */}
-            {/* 그리고 서버측에서 파싱해야함 */}
-            {/* {selectedQuizType === 'selection' ? (
-                <>
-                    <label>1</label>
-                    <FlexCenterDiv>
-                        <Input />
-                    </FlexCenterDiv>
-                    <label>2</label>
-                    <FlexCenterDiv>
-                        <Input />
-                    </FlexCenterDiv>
-                    <label>3</label>
-                    <FlexCenterDiv>
-                        <Input />
-                    </FlexCenterDiv>
-                    <label>4</label>
-                    <FlexCenterDiv>
-                        <Input />
-                    </FlexCenterDiv>
-                </>
-            ) : (
-                <>
-                    <FlexCenterDiv style={{ marginTop: '20px' }}>정답</FlexCenterDiv>
-                    <FlexCenterDiv style={{ marginTop: '10px' }}>
-                        <Input onChange={onChangeSelectionAnswer} value={selectedAnswer} />
-                    </FlexCenterDiv>
-                </>
-            )} */}
+            {/*  */}
             <FlexCenterDiv style={{ marginTop: '20px' }}>정답</FlexCenterDiv>
             <AnswerEditor
                 selectedQuizType={selectedQuizType}
                 onChangeSelectionAnswer={onChangeSelectionAnswer}
+                setSelectedAnswer={setSelectedAnswer} // CodeEditor를 위해.
                 selectedAnswer={selectedAnswer}
             />
 
