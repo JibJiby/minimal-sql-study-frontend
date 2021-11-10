@@ -1,28 +1,30 @@
-import React from 'react';
-import { createGlobalStyle } from 'styled-components';
-import reset from 'styled-reset';
-import { Layout, Menu } from 'antd';
-import { useHistory } from 'react-router-dom';
+import React from 'react'
+import { createGlobalStyle } from 'styled-components'
+import reset from 'styled-reset'
+import { Layout, Menu } from 'antd'
+import { useHistory } from 'react-router-dom'
 
 const GlobalStyle = createGlobalStyle`
     ${reset}
     * {
       box-sizing: border-box;
     }
-`;
+`
 
-const { Header, Content } = Layout;
+const { Header, Content } = Layout
 
 const AppLayout = ({ children }) => {
-    const history = useHistory();
+    const history = useHistory()
 
     const onMenuClick = ({ item, key, keyPath, e }) => {
         if (key === 'Home') {
-            history.push('/');
+            history.push('/')
         } else if (key === 'Editor') {
-            history.push('/editor');
+            history.push('/editor')
+        } else if (key === 'Create') {
+            history.push('/create')
         }
-    };
+    }
 
     return (
         <>
@@ -42,10 +44,27 @@ const AppLayout = ({ children }) => {
                         height: '64px',
                     }}
                 >
-                    {/* <Menu horizon>
-                        <Menu.Item>Home</Menu.Item>
-                        <Menu.Item>Home</Menu.Item>
-                    </Menu> */}
+                    <Menu
+                        theme="dark"
+                        mode="horizontal"
+                        onClick={onMenuClick}
+                        style={{
+                            background: '#343a40',
+                            fontSize: '18px',
+                            height: '64px',
+                            width: '100%',
+                        }}
+                    >
+                        <Menu.Item key="Home" style={{ color: 'white' }}>
+                            Home
+                        </Menu.Item>
+                        <Menu.Item key="Editor" style={{ color: 'white' }}>
+                            Editor
+                        </Menu.Item>
+                        <Menu.Item key="Create" style={{ color: 'white' }}>
+                            Create
+                        </Menu.Item>
+                    </Menu>
                 </Header>
                 {/* 헤더 크기만큼 height를 주고, width: 100%으로 한다. */}
                 <div
@@ -67,7 +86,7 @@ const AppLayout = ({ children }) => {
                 </Content>
             </Layout>
         </>
-    );
-};
+    )
+}
 
-export default AppLayout;
+export default AppLayout

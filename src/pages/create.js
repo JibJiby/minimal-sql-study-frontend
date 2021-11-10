@@ -9,15 +9,12 @@ import { FlexCenterDiv } from '../styles/common'
 import QuizEditor from '../components/QuizEditor'
 
 const Create = () => {
-    // const {
-    //     data: adminData,
-    //     error,
-    //     mutate: revalidateUser,
-    // } = useSWR('/user', fetcher, { refreshInterval: 1000 * 60 }); // 60초마다
+    const { data: adminData, error, mutate: revalidateUser } = useSWR('/user', fetcher, { refreshInterval: 1000 * 60 }) // 60초마다
 
     return (
         <AppLayout>
-            <QuizEditor />
+            {adminData ? <QuizEditor /> : <FlexCenterDiv style={{ marginTop: '30px' }}>권한 없음</FlexCenterDiv>}
+            {/* <QuizEditor /> */}
         </AppLayout>
     )
 }

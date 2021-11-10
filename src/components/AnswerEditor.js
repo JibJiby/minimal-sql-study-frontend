@@ -32,7 +32,7 @@ const AnswerEditor = ({ selectedQuizType, setSelectedAnswer, onChangeSelectionAn
                 return (
                     <>
                         {/* TODO: '변환하기' '테이블' 모두 제거해줘야 함.  */}
-                        <CodeEditor setSelectedAnswer={setSelectedAnswer} selectedAnswer={selectedAnswer} />
+                        <CodeEditor setSelectedAnswer={setSelectedAnswer} />
                     </>
                 )
             default:

@@ -14,7 +14,7 @@ import { Button, message } from 'antd'
 
 const parser = new Parser()
 
-const CodeEditor = ({ setSelectedAnswer, selectedAnswer }) => {
+const CodeEditor = ({ setSelectedAnswer }) => {
     // TODO: 외부에서 사용하는 CodeEditor에서 ast를 반환하고 state 관리가 잘 되도록 해야함.
     const [codeValue, setCodeValue] = useState('')
     const [resultJSON, setResultJSON] = useState(null)
@@ -22,24 +22,20 @@ const CodeEditor = ({ setSelectedAnswer, selectedAnswer }) => {
 
     const editorRef = useRef()
 
-    const runQuery = useCallback(() => {
+    const runQuery = () => {
         // TODO: 나중에 BigQuery로 파싱해도 되고. react-ace도 Bigquery로 나오긴 해야 하는데
         const opt = {
             database: 'MySQL',
         }
 
         try {
-            if (selectedAnswer) {
-                console.log('selectedAnswer')
-                console.log(selectedAnswer)
-                setCodeValue(...selectedAnswer)
-            }
             // const ast = parser.astify(codeValue)
             const { tableList: parsedTableList, columnList: parsedColumnList, ast } = parser.parse(codeValue)
             // const parsedTableList = parser.tableList(codeValue, opt)
             // const parsedTableList = parser.tableList(codeValue)
 
             setResultJSON({ ...ast })
+            setSelectedAnswer(JSON.stringify(ast))
 
             // TODO: tableList를 제대로 가져오지 못함.
             // TODO: 확인시 아래 주석해제 하면 됨.
@@ -60,8 +56,9 @@ const CodeEditor = ({ setSelectedAnswer, selectedAnswer }) => {
             // console.log(error)
             message.warn('제대로된 쿼리를 입력해주세요', 0.6)
             setResultJSON(null)
+            setSelectedAnswer(null)
         }
-    })
+    }
 
     const onChange = (v) => {
         setCodeValue(v)
@@ -90,8 +87,8 @@ const CodeEditor = ({ setSelectedAnswer, selectedAnswer }) => {
                     mode="mysql"
                     theme="monokai"
                     // 외부에서 컴포넌트로 사용할 때는 setSelectedAnswer와 selectedAnswer 사용. 아니면 로컬용으로 onChange와 codeValue 사용.
-                    onChange={setSelectedAnswer ? setSelectedAnswer : onChange}
-                    value={selectedAnswer ? selectedAnswer : codeValue}
+                    onChange={onChange}
+                    value={codeValue}
                     ref={editorRef}
                     fontSize={20}
                     height={300} // TODO: 나중에 더 괜찮은 높이 찾기
@@ -105,6 +102,7 @@ const CodeEditor = ({ setSelectedAnswer, selectedAnswer }) => {
                             bindKey: { win: 'Ctrl-enter', mac: 'Cmd-enter' },
                             exec: (editor) => {
                                 console.log('enter')
+                                // TODO: runQuery()가 정상 작동하지 않음
                                 runQuery()
                             },
                         },

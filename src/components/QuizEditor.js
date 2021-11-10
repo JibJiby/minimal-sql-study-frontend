@@ -177,9 +177,13 @@ const QuizEditor = () => {
                     showCount
                     maxLength={100}
                     rows={4}
-                    size={100}
+                    size={400}
                     onChange={onChangeSelectionQuizContent}
                     value={selectedQuizContent}
+                    style={{
+                        margin: '0 200px',
+                        flex: 1,
+                    }}
                 />
             </FlexCenterDiv>
 
