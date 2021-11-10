@@ -15,6 +15,7 @@ import { Button, message } from 'antd'
 const parser = new Parser()
 
 const CodeEditor = ({ setSelectedAnswer, selectedAnswer }) => {
+    // TODO: 외부에서 사용하는 CodeEditor에서 ast를 반환하고 state 관리가 잘 되도록 해야함.
     const [codeValue, setCodeValue] = useState('')
     const [resultJSON, setResultJSON] = useState(null)
     // const [tableList, setTableList] = useState([])
